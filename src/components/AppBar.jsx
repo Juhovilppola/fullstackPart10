@@ -70,10 +70,9 @@ const SingOut = () => {
 const AppBar = () => {
   const {data} = useQuery(LOGGEDIN);
   let loggedIn = false ;
-  if(data.me) {
-    loggedIn = true;
-  }
-  console.log(data)
+  
+  loggedIn = !data?.me ? false : true
+
   console.log(loggedIn)
   return <View style={styles.container}>
     <ScrollView horizontal>

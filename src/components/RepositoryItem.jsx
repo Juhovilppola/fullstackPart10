@@ -1,6 +1,8 @@
-
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Pressable } from 'react-native';
 import Text from './Text';
+import { useNavigate } from 'react-router-native';
+import * as Linking from 'expo-linking';
+
 
 const styles = StyleSheet.create({
   container : {
@@ -45,22 +47,33 @@ const styles = StyleSheet.create({
   textAlign: 'center',
   
   
- }
+ },
+ button: {
+  backgroundColor: '#0366d6',
+  borderRadius: 5,
+  margin: 10,
+  padding: 15,
+},
 });
 
 
 
-const RepositoryItem = ({item}) => {
+const RepositoryItem = ({item, single}) => {
+  const navigate = useNavigate();
+  console.log(item);
 
   const rounder =  (number) => {
-    
+    if(number > 999) {
     const roundedNumber = number / 1000
     return roundedNumber.toFixed(1) + 'k'
+    }
+    return number
 
   }
 
  return(
-      <View style={styles.container}>
+  <Pressable onPress={() => { {item.id && navigate(`/repository/${item.id}`)} }}>
+      <View style={styles.container} testID="repositoryItem">
       <View style={styles.rowWithImage}>
         <Image 
         style={styles.image}
@@ -92,8 +105,13 @@ const RepositoryItem = ({item}) => {
           <Text color='textSecondary'>Rating</Text>
           </View>
      </View> 
+     {single == true? <Pressable onPress={() => { Linking.openURL(item.url) }}>
+                <View style={styles.button}>
+                    <Text style={styles.item} color='textThird'>Open in GitHub</Text>
+                </View>
+            </Pressable>: null }
    </View>
-   
+   </Pressable>
       
      
  );
