@@ -7,9 +7,9 @@ import { setContext } from '@apollo/client/link/context';
 
 // You might need to change this depending on how you have configured the Apollo Server's URI
 const { apollo } = Constants.expoConfig.extra;
-
+//changed uri: apollo
 const httpLink = createHttpLink({
-  uri: apollo,
+  uri: 'http://10.0.2.2:4000',
 });
 
 
