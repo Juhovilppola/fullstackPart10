@@ -29,7 +29,7 @@ const RepositoryView = () => {
     
     ItemSeparatorComponent={ItemSeparator}
     keyExtractor={({ id }) => id}
-    ListHeaderComponent={() => <RepositoryItem item={repository} single ={true}/>} // pass repository as props to RepositoryInfo component
+    ListHeaderComponent={() => <RepositoryItem item={repository} single ={true}/>} 
   
 
 />
