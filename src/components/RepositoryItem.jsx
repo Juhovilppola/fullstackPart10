@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({item, single}) => {
   const navigate = useNavigate();
-  console.log(item);
+  //console.log(item);
 
   const rounder =  (number) => {
     if(number > 999) {

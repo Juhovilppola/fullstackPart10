@@ -64,6 +64,17 @@ const SingOut = () => {
     </Pressable>
   )
 }
+const Review = () => {
+  return(
+    <Pressable>
+      <Link to ="/review">
+      <Text style={styles.text}>
+        Create a review
+      </Text>
+      </Link>
+      </Pressable>
+  )
+}
 
 
 
@@ -81,7 +92,10 @@ const AppBar = () => {
       <SingIn/>
     }
     {loggedIn &&
+    <>
+      <Review/>
       <SingOut/>
+      </>
 }
     
 

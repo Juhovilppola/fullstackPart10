@@ -7,10 +7,8 @@ import { GET_REPOSITORY } from '../graphql/queries';
 const useRepositories = ({ id }) => {
   console.log(id)
   const [repository, setRepository] = useState();
-  //const [loading, setLoading] = useState(false);
 
 
-  //setLoading(true);
 
 
   const { data, error, loading, } = useQuery(GET_REPOSITORY, {
@@ -28,11 +26,11 @@ const useRepositories = ({ id }) => {
     console.log(data)
   }
 
-  //setLoading(loading)
-  console.log(data)
 
 
-  //setLoading(false);
+
+
+
   return { repository: repository, loading };
 };
 
