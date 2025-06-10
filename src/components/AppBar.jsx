@@ -40,13 +40,24 @@ const SingIn = () => {
     <Pressable>
       <Link to ="/singIn">
       <Text style = {styles.text}>
-      Sing in
+      Sign in
       </Text>
       </Link>
     </Pressable>
   )
 }
 
+const SignUp = () => {
+  return(
+    <Pressable>
+      <Link to ="/signUp">
+      <Text style = {styles.text}>
+      Sign Up
+      </Text>
+      </Link>
+    </Pressable>
+  )
+}
 const SingOut = () => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient()
@@ -84,12 +95,15 @@ const AppBar = () => {
   
   loggedIn = !data?.me ? false : true
 
-  console.log(loggedIn)
+  //console.log(loggedIn)
   return <View style={styles.container}>
     <ScrollView horizontal>
     <Repository/>
     {!loggedIn &&
+    <>
       <SingIn/>
+      <SignUp/>
+      </>
     }
     {loggedIn &&
     <>
