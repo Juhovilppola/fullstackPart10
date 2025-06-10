@@ -1,11 +1,12 @@
-import Text from './Text';
-import * as React from 'react';
+//import Text from './Text';
+//import * as React from 'react';
 import {useParams} from "react-router"
 import RepositoryItem from "./RepositoryItem";
-import { useQuery } from "@apollo/client";
+//import { useQuery } from "@apollo/client";
 import useRepository from '../hooks/useRepository';
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
-import { format, compareAsc } from "date-fns";
+//import { format, compareAsc } from "date-fns";
+import ReviewItem from "./ReviewItem"
 
 const styles = StyleSheet.create({
   separator: {
@@ -43,47 +44,14 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const ReviewItem = ({review}) => {
-  let date =  format(new Date(review.createdAt), "dd/MM/yyyy");
 
-  
-
-  console.log(date)
-  return(
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <Text style={styles.rating}>
-      {review.rating}
-      </Text>
-      <View>
-      <Text style={{fontWeight: 'bold', paddingLeft: 15}}>
-      {review.user.username}
-      </Text>
-      <Text style={styles.text}>
-      {date}
-      </Text>
-      <Text>
-      
-      </Text>
-      </View>
-      </View>
-      <View style={{paddingLeft: 75}}>
-        <Text>
-      {review.text}
-      </Text>
-      </View>
-
-    </View>
-    
-  )
-}
 
 const RepositoryView = () => {
 
 
   const {id} = useParams();
 
-  const { repository } = useRepository({id});
+  const { repository, fetchMore } = useRepository({id});
   //console.log(data)
   
   console.log('reporepo')
@@ -96,6 +64,13 @@ const RepositoryView = () => {
     ? repository.reviews.edges.map(edge => edge.node)
     : [];
 
+  const onEndReach = () => {
+    console.log('end')
+    fetchMore();
+  };
+  console.log('koira')
+  console.log(reviews)
+
   return (
       
     <FlatList
@@ -104,6 +79,8 @@ const RepositoryView = () => {
     renderItem={({ item }) => <ReviewItem review={item} />}
     ItemSeparatorComponent={ItemSeparator}
     keyExtractor={({ id }) => id}
+    onEndReached={onEndReach}
+    onEndReachedThreshold={0.5}
     ListHeaderComponent={() => <RepositoryItem item={repository} single ={true}/>} 
   
 

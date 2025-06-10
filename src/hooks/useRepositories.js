@@ -10,12 +10,12 @@ const useRepositories = (sorting, searchQuery) => {
   let variables = {};
 
   if (sorting === 'high') {
-    variables = { orderBy: "RATING_AVERAGE", orderDirection: "DESC", searchQuery }
+    variables = { orderBy: "RATING_AVERAGE", orderDirection: "DESC", searchQuery, first: 4 }
   } else if (sorting === 'low') {
-    variables = { orderBy: "RATING_AVERAGE", orderDirection: "ASC", searchQuery }
+    variables = { orderBy: "RATING_AVERAGE", orderDirection: "ASC", searchQuery, first: 4 }
 
   } else {
-    variables = { orderBy: "CREATED_AT", orderDirection: "DESC", searchQuery }
+    variables = { orderBy: "CREATED_AT", orderDirection: "DESC", searchQuery, first: 4 }
 
   }
   console.log(variables)
@@ -23,10 +23,10 @@ const useRepositories = (sorting, searchQuery) => {
   //setLoading(true);
 
 
-  const { data, error, loading, } = useQuery(GET_REPOSITORIES, {
+  const { data, error, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: "cache-and-network",
     variables,
-    onCompleted: (data) => setRepositories(data.repositories)
+    //onCompleted: (data) => setRepositories(data.repositories)
   });
   if (error) {
     console.log('error')
@@ -40,6 +40,28 @@ const useRepositories = (sorting, searchQuery) => {
     console.log('data')
     //console.log(data)
   }
+  const handleFetchMore = () => {
+    console.log('fetcher')
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+
+  return {
+    repositories: data?.repositories,
+    fetchMore: handleFetchMore,
+    loading,
+    ...result,
+  };
 
   //setLoading(loading)
 
@@ -56,7 +78,7 @@ const useRepositories = (sorting, searchQuery) => {
 
 
 
-  return { repositories: repositories, loading };
+  // return { repositories: repositories, loading };
 };
 
 export default useRepositories;

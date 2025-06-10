@@ -7,6 +7,7 @@ import { LOGGEDIN } from '../graphql/queries';
 import useAuthStorage from '../hooks/useAuthStorage';
 import {useApolloClient } from '@apollo/client';
 
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
@@ -86,6 +87,17 @@ const Review = () => {
       </Pressable>
   )
 }
+const UsersReviews = () => {
+  return(
+    <Pressable>
+      <Link to ="/UsersReviews">
+      <Text style={styles.text}>
+        My reviews
+      </Text>
+      </Link>
+      </Pressable>
+  )
+}
 
 
 
@@ -108,6 +120,7 @@ const AppBar = () => {
     {loggedIn &&
     <>
       <Review/>
+      <UsersReviews/>
       <SingOut/>
       </>
 }

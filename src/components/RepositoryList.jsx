@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { FlatList, View, StyleSheet} from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 import {Picker} from '@react-native-picker/picker';
@@ -53,6 +53,8 @@ export class RepositoryListContainer extends React.Component {
         renderItem={({item}) => <RepositoryItem item={item} single={false}/>}
         ListHeaderComponent={this.renderHeader}
         keyExtractor={item => item.id}
+        onEndReached={props.onEndReach}
+        onEndReachedThreshold={0.5}
       />
      
     );
@@ -64,11 +66,15 @@ const RepositoryList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchValue] = useDebounce(searchQuery, 500);
 
-  const { repositories } = useRepositories(sorting, searchValue);
+  const { repositories, fetchMore } = useRepositories(sorting, searchValue);
   //console.log(repositories)
+   const onEndReach = () => {
+    console.log('end')
+    fetchMore();
+  };
 
   return <RepositoryListContainer repositories={repositories} sorting={sorting} setSorting={setSorting} searchQuery={searchQuery}
-  setSearchQuery={setSearchQuery} />;
+  setSearchQuery={setSearchQuery} onEndReach={onEndReach}/>;
 };
 
 
